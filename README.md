@@ -1,3 +1,11 @@
+### Added local: custom_handler
+One file called custom_handler is added to the ts/torch_handler. In the file, functions initialize(), preprocess(), inference(), and postprocess() should be overrided. The pipeline is always valid from intialize to preprocess and inference and then postprocess. The pipeline is maintained by torchserve as inner structure, so it is important that input and output of the functions be compatiable with the instruction that is mentioned in the inline comments; otherwise, torchserve returns errors. Fortunately, in this manner of intializing the serve, we can load model in any way we will.
+Pay attention that when archiving the serve, we should address our desire handler:
+torch-model-archiver --model-name resnet-18 --version 1.0 --model-file ./examples/image_classifier/resnet_18/model.py --serialized-file resnet18-f37072fd.pth --handler ./ts/torch_handler/custom_handler.py
+
+
+
+
 # ❗ANNOUNCEMENT: Security Changes❗
 TorchServe now enforces token authorization enabled and model API control disabled by default. These security features are intended to address the concern of unauthorized API calls and to prevent potential malicious code from being introduced to the model server. Refer the following documentation for more information: [Token Authorization](https://github.com/pytorch/serve/blob/master/docs/token_authorization_api.md), [Model API control](https://github.com/pytorch/serve/blob/master/docs/model_api_control.md)
 
